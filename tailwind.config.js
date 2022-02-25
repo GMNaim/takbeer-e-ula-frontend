@@ -5,7 +5,7 @@ module.exports = {
   experimental: {
     optimizeUniversalDefaults: true,
   },
-  purge: ["./src/**/*.{js,ts,jsx,tsx}"],
+  purge: ["./src/**/*.{js,ts,jsx,tsx}", "./public/index.html"],
   mode: "jit",
   darkMode: "class",
   theme: {

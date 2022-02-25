@@ -58,7 +58,7 @@ function App() {
                                                 ) : (
                                                     <div>
                                                         {waqts.map((waqt, i) => {
-                                                            return <div className="bg-red-500 h-10 border"></div>
+                                                            return <div className="bg-gray-300 h-10 border"></div>
                                                         })}
                                                     </div>
                                                 )}
