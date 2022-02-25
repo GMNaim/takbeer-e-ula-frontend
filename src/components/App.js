@@ -31,6 +31,7 @@ function App() {
 
   // const formattedData = getColor(salatByDate, dates)
   let missed = {};
+  let completed_days = {};
   if (!salatByDate?.user_code_list) {
     return (
       <div className="loading text-center">
@@ -42,14 +43,75 @@ function App() {
   return (
     <div className="">
       <Nav></Nav>
-      <table className="p-5 mt-6 mx-auto">
+      <table className="p-5 mt-6 mx-auto" style={{ overflowX: "scroll" }}>
+        {/* <th>User Code</th> */}
         <thead>
           {/* <th className="border border-slate-800">No. of Days</th> */}
-          <th className="border border-slate-800">Date</th>
-          <th className="border border-slate-800">Waqt</th>
-          {salatByDate?.user_code_list?.map((code) => {
-            return <th className="border border-slate-800">{code}</th>;
-          })}
+
+          <tr>
+            <th
+              className="border border-slate-800 text-4xl"
+              colSpan={2}
+              rowSpan={2}
+            >
+              الحمد لله
+            </th>
+            <th
+              className="border border-slate-800"
+              colSpan={salatByDate?.user_code_list.length + 2}
+            >
+              Completed Days
+            </th>
+          </tr>
+
+          <tr>
+            {/* <th className="border border-slate-800" colSpan={2}></th> */}
+
+            {salatByDate?.user_code_list?.map((code) => {
+              return (
+                <th
+                  //   colSpan={salatByDate?.user_code_list.length + 2}
+                  className="border border-slate-800 text-xl"
+                  style={{ width: "40px" }}
+                >
+                  {code}
+                </th>
+              );
+            })}
+
+            {/* <th
+              className="border border-slate-800"
+              colSpan={salatByDate?.user_code_list.length + 2}
+            >
+              dd
+            </th> */}
+          </tr>
+          <tr>
+            <th className="border border-slate-800" rowSpan={2}>
+              Date
+            </th>
+            <th className="border border-slate-800" rowSpan={2}>
+              Waqt
+            </th>
+            <th
+              className="border border-slate-800"
+              colSpan={salatByDate?.user_code_list.length}
+            >
+              Code Number
+            </th>
+          </tr>
+          <tr>
+            {salatByDate?.user_code_list?.map((code) => {
+              return (
+                <th
+                  className="border border-slate-800"
+                  style={{ width: "40px" }}
+                >
+                  {code}
+                </th>
+              );
+            })}
+          </tr>
         </thead>
         <tbody className="border border-slate-800">
           {dates?.length &&
@@ -89,23 +151,29 @@ function App() {
                     })}
                   </td>
 
-                  {salatByDate?.user_code_list.map((c) => {
-                    const user = data.find((d) => d.user_code === c);
+                  {salatByDate?.user_code_list.map((code) => {
+                    const user = data.find((d) => d.user_code === code);
 
                     return (
-                      <td className="w-12">
+                      <td className="" style={{ width: "40px" }}>
                         {user ? (
                           <div>
                             {waqts.map((waqt, j) => {
                               console.log(user.performed_salat_list[j]);
                               if (!user.performed_salat_list[j]) {
-                                missed[c] = true;
+                                missed[code] = true;
+                              } else {
+                                if (completed_days[code] === 0) {
+                                  completed_days[code] = 1;
+                                } else {
+                                  completed_days[code] += 1;
+                                }
                               }
                               return (
                                 <div
                                   className={` h-10 border border-slate-800 ${
                                     user.performed_salat_list[j]
-                                      ? !missed[c]
+                                      ? !missed[code]
                                         ? "bg-green-500"
                                         : "bg-green-200"
                                       : "bg-red-500"
@@ -117,7 +185,7 @@ function App() {
                         ) : (
                           <div>
                             {waqts.map((waqt, i) => {
-                              missed[c] = true;
+                              missed[code] = true;
                               return (
                                 <div className="bg-gray-100 h-10 border border-slate-800"></div>
                               );
