@@ -1,6 +1,7 @@
 import React from "react";
 import { useSalatByDate } from "../api/graph";
 import "../styles/styles.css";
+import Nav from "./Nav";
 
 const waqts = ["Fajr", "Juhr", "Asr", "Magrib", "Isha"];
 
@@ -30,14 +31,15 @@ function App() {
 getColor(salatByDate, dates)
 
   return (
-    <div className="container">
-      <table className="p-5 mx-auto">
+    <div className="">
+      <Nav></Nav>
+      <table className="p-5 mt-6 mx-auto">
         <thead>
-          <th className="border border-slate-800">No. of Days</th>
+          {/* <th className="border border-slate-800">No. of Days</th> */}
           <th className="border border-slate-800">Date</th>
           <th className="border border-slate-800">Waqt</th>
           {salatByDate?.user_code_list?.map((code) => {
-            return <th className="border">{code}</th>;
+            return <th className="border border-slate-800">{code}</th>;
           })}
         </thead>
         <tbody className="border border-slate-800">
@@ -47,14 +49,14 @@ getColor(salatByDate, dates)
               // console.log(data);
               return (
                 <tr className="border border-slate-800">
-                  <td className="p-2 border  border-slate-800 text-center">
+                  {/* <td className="p-2 border  border-slate-800 text-center">
                     {Math.round(
                       (new Date(date).getTime() +
                         1000 * 3600 * 24 -
                         new Date(salatByDate.starting_date).getTime()) /
                         (1000 * 3600 * 24)
                     )}
-                  </td>
+                  </td> */}
                   <td className="p-2">
                     {new Date(date).toLocaleDateString("en-US", {
                       year: "numeric",
