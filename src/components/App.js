@@ -4,12 +4,34 @@ import "../styles/styles.css";
 
 const waqts = ["Fajr", "Juhr", "Asr", "Magrib", "Isha"];
 
+
+const getColor = (salatByDate, dates) => {
+  if(!salatByDate || !dates) return;
+  let formattedData = {};
+  for(let i = 0; i < dates.length; i++){
+    const data = salatByDate.salat_data[dates[i]];
+    for(let j = 0; j < data.length; j++){
+      const user = data[j];
+      if(formattedData[user.user_code]){
+        formattedData[user.user_code].push(...user.performed_salat_list);
+      } else {
+        formattedData[user.user_code] = user.performed_salat_list;
+      }
+    }
+  }
+  console.log(formattedData)
+}
+
 function App() {
   const { salatByDate, dates } = useSalatByDate();
+// console.log(salatByDate, dates)
+
+  
+getColor(salatByDate, dates)
 
   return (
     <div className="container">
-      <table className="p-5">
+      <table className="p-5 mx-auto">
         <thead>
           <th className="border border-slate-800">No. of Days</th>
           <th className="border border-slate-800">Date</th>
@@ -22,7 +44,7 @@ function App() {
           {dates?.length &&
             dates.map((date) => {
               const data = salatByDate?.salat_data[date];
-              console.log(data);
+              // console.log(data);
               return (
                 <tr className="border border-slate-800">
                   <td className="p-2 border  border-slate-800 text-center">
