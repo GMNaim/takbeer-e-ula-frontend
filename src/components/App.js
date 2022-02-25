@@ -1,10 +1,11 @@
 import React from "react";
 import { useSalatByDate } from "../api/graph";
 import "../styles/styles.css";
+
+import loadingImage from "../images/loading.gif";
 import Nav from "./Nav";
 
 const waqts = ["Fajr", "Juhr", "Asr", "Magrib", "Isha"];
-
 
 // const getColor = (salatByDate, dates) => {
 //   if(!salatByDate || !dates) return;
@@ -26,11 +27,18 @@ const waqts = ["Fajr", "Juhr", "Asr", "Magrib", "Isha"];
 
 function App() {
   const { salatByDate, dates } = useSalatByDate();
-// console.log(salatByDate, dates)
+  // console.log(salatByDate, dates)
 
-  
-// const formattedData = getColor(salatByDate, dates)
-let missed = {};
+  // const formattedData = getColor(salatByDate, dates)
+  let missed = {};
+  if (!salatByDate?.user_code_list) {
+    return (
+      <div className="loading text-center">
+        {/* <h1>Processing your request...</h1> */}
+        <img className="mx-auto" src={loadingImage} alt="" />
+      </div>
+    );
+  }
   return (
     <div className="">
       <Nav></Nav>
@@ -83,21 +91,23 @@ let missed = {};
 
                   {salatByDate?.user_code_list.map((c) => {
                     const user = data.find((d) => d.user_code === c);
-                    
+
                     return (
                       <td className="w-12">
                         {user ? (
                           <div>
                             {waqts.map((waqt, j) => {
-                              console.log(user.performed_salat_list[j])
-                              if(!user.performed_salat_list[j]){
+                              console.log(user.performed_salat_list[j]);
+                              if (!user.performed_salat_list[j]) {
                                 missed[c] = true;
                               }
                               return (
                                 <div
                                   className={` h-10 border border-slate-800 ${
                                     user.performed_salat_list[j]
-                                      ? !missed[c] ? "bg-green-500" : "bg-green-200"
+                                      ? !missed[c]
+                                        ? "bg-green-500"
+                                        : "bg-green-200"
                                       : "bg-red-500"
                                   }`}
                                 ></div>
