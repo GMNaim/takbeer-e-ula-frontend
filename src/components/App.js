@@ -6,30 +6,31 @@ import Nav from "./Nav";
 const waqts = ["Fajr", "Juhr", "Asr", "Magrib", "Isha"];
 
 
-const getColor = (salatByDate, dates) => {
-  if(!salatByDate || !dates) return;
-  let formattedData = {};
-  for(let i = 0; i < dates.length; i++){
-    const data = salatByDate.salat_data[dates[i]];
-    for(let j = 0; j < data.length; j++){
-      const user = data[j];
-      if(formattedData[user.user_code]){
-        formattedData[user.user_code].push(...user.performed_salat_list);
-      } else {
-        formattedData[user.user_code] = user.performed_salat_list;
-      }
-    }
-  }
-  console.log(formattedData)
-}
+// const getColor = (salatByDate, dates) => {
+//   if(!salatByDate || !dates) return;
+//   let formattedData = {};
+//   for(let i = 0; i < dates.length; i++){
+//     const data = salatByDate.salat_data[dates[i]];
+//     for(let j = 0; j < data.length; j++){
+//       const user = data[j];
+//       if(formattedData[user.user_code]){
+//         formattedData[user.user_code].push(...user.performed_salat_list);
+//       } else {
+//         formattedData[user.user_code] = user.performed_salat_list;
+//       }
+//     }
+//   }
+//   console.log(formattedData)
+//   return formattedData;
+// }
 
 function App() {
   const { salatByDate, dates } = useSalatByDate();
 // console.log(salatByDate, dates)
 
   
-getColor(salatByDate, dates)
-
+// const formattedData = getColor(salatByDate, dates)
+let missed = {};
   return (
     <div className="">
       <Nav></Nav>
@@ -82,17 +83,21 @@ getColor(salatByDate, dates)
 
                   {salatByDate?.user_code_list.map((c) => {
                     const user = data.find((d) => d.user_code === c);
-
+                    
                     return (
                       <td className="w-12">
                         {user ? (
                           <div>
                             {waqts.map((waqt, j) => {
+                              console.log(user.performed_salat_list[j])
+                              if(!user.performed_salat_list[j]){
+                                missed[c] = true;
+                              }
                               return (
                                 <div
                                   className={` h-10 border border-slate-800 ${
                                     user.performed_salat_list[j]
-                                      ? "bg-green-500"
+                                      ? !missed[c] ? "bg-green-500" : "bg-green-200"
                                       : "bg-red-500"
                                   }`}
                                 ></div>
@@ -102,6 +107,7 @@ getColor(salatByDate, dates)
                         ) : (
                           <div>
                             {waqts.map((waqt, i) => {
+                              missed[c] = true;
                               return (
                                 <div className="bg-gray-100 h-10 border border-slate-800"></div>
                               );
