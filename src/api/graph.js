@@ -7,12 +7,14 @@ export const useSalatByDate = () => {
   useEffect(() => {
     (async () => {
       try {
+        console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
         const { data } = await getSalatByDate();
         console.log(data);
         setSalatByDate(data);
         setDates(Object.keys(data?.salat_data));
       } catch (error) {
         console.log(error);
+        alert(error);
       }
     })();
   }, []);
